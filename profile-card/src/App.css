@@ -1,0 +1,47 @@
+html {
+    overflow: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+.card {
+    border: 7px solid black;
+    width: 30rem;
+    box-shadow: 2px 2px 10px 10px rgb(192, 191, 191);
+    border-radius: 10px;
+}
+
+.avatar-container {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: calc(20em + 1vw);
+}
+
+.data {
+    padding: 2rem;
+}
+
+.intro-description {
+    text-align: justify;
+}
+
+.skill-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.skill-container {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: .5rem 1rem;
+    gap: 1rem;
+}

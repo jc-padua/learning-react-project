@@ -1,11 +1,11 @@
 import React from 'react';
 
-function WatchedMovie({ movie }) {
-  const { imdbID, Poster, Title, imdbRating, userRating, runtime } = movie;
+function WatchedMovie({ movie, onDeleteWatched }) {
+  const { imdbID, poster, title, imdbRating, userRating, runtime } = movie;
   return (
     <li key={imdbID}>
-      <img src={Poster} alt={`${Title} poster`} />
-      <h3>{Title}</h3>
+      <img src={poster} alt={`${title} poster`} />
+      <h3>{title}</h3>
       <div>
         <p>
           <span>⭐️</span>
@@ -19,6 +19,10 @@ function WatchedMovie({ movie }) {
           <span>⏳</span>
           <span>{runtime} min</span>
         </p>
+
+        <button className="btn-delete" onClick={() => onDeleteWatched(imdbID)}>
+          X
+        </button>
       </div>
     </li>
   );

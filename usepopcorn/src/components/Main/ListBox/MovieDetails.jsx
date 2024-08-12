@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import StarRating from '../../StarRating/StarRating';
+import { useRef } from 'react';
+import useKey from '../../../hooks/useKey';
 
 const KEY = 'de5d2500';
 
@@ -9,6 +11,12 @@ function MovieDetails({ selectedID, onCloseMovie, onAddWatched, watched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState('');
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current = countRef.current + 1;
+  }, [userRating]);
+
   const {
     Title: title,
     Year: year,
@@ -21,6 +29,12 @@ function MovieDetails({ selectedID, onCloseMovie, onAddWatched, watched }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+  // const [isTop, setIsTop] = useState(imdbRating > 8);
+
+  // useEffect(() => {
+  //   setIsTop(imdbRating > 8);
+  // }, [imdbRating]);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -37,6 +51,21 @@ function MovieDetails({ selectedID, onCloseMovie, onAddWatched, watched }) {
     getMovieDetails();
   }, [selectedID]);
 
+  useKey('Escape', onCloseMovie);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+
+    return () => {
+      document.title = 'usePopcorn';
+    };
+  }, [title]);
+
+  // const isTop = imdbRating > 8;
+  // console.log(isTop);
+  // const [avgRating, setAvgRating] = useState(0);
+
   const handleAddWatched = () => {
     const newWatchedMovie = {
       imdbID: selectedID,
@@ -46,9 +75,13 @@ function MovieDetails({ selectedID, onCloseMovie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(' ').at()),
       userRating,
+      countRatingDecisions: countRef.current,
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie();
+
+    // setAvgRating(Number(imdbRating));
+    // setAvgRating(avgRating => (avgRating + userRating) / 2);
   };
 
   const isAlreadyWatched = watched
@@ -83,6 +116,7 @@ function MovieDetails({ selectedID, onCloseMovie, onAddWatched, watched }) {
               </p>
             </div>
           </header>
+          {/* <p>{avgRating}</p> */}
           <section>
             <div className="rating">
               {!isAlreadyWatched ? (
